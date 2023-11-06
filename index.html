@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>App loca</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/darkly/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="form-group col-lg-12">
+          <input
+            type="password"
+            id="clave"
+            class="form-control form-control-lg"
+            placeholder="Ingrese texto"
+            autofocus
+          />
+        </div>
+        <div class="form-group col-lg-12">
+          <button
+            onclick="magia()"
+            class="btn btn-success form-control form-control-lg"
+          >
+            Convertir
+          </button>
+        </div>
+        <div class="form-group col-lg-12">
+          <h2
+            id="holi"
+            class="form-control form-control-lg bg-primary"
+            style="color: white"
+          >
+            Resultado...
+          </h2>
+        </div>
+      </div>
+    </div>
+
+    <script src="./md5.js"></script>
+    <script>
+      function magia() {
+        var texto = document.getElementById("clave").value;
+        if (texto != null && texto != "" && texto.length >= 8) {
+          var buf = MD5(texto);
+          var h = buf.substring(0, 12);
+          var cadena = "";
+          first = -1;
+          last = -1;
+          for (let i = 0; i < h.length; i++) {
+            if (isNaN(h[i]) && first === -1) {
+              cadena += h[i].toUpperCase();
+              first = i;
+            } else {
+              cadena += h[i];
+            }
+
+            if (!isNaN(h[i])) {
+              last = h[i];
+            }
+          }
+          cadenaNew = cadena.replace(last, "*");
+
+          document.getElementById("holi").innerHTML = cadenaNew;
+        }
+      }
+    </script>
+  </body>
+</html>
