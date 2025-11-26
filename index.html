@@ -1,238 +1,221 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LocApp v3</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-    />
-    <style>
-      html {
-        scrollbar-gutter: stable;
-      }
 
-      body {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-      }
-      
-      .card {
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        width: 100%;
-        max-width: 1400px;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LocApp v3</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <style>
+    html {
+      scrollbar-gutter: stable;
+    }
 
-      .btn-group-custom {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 0.5rem;
-      }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-      .version-badge {
-        font-size: 0.75rem;
-        padding: 0.25rem 0.5rem;
-        border-radius: 50px;
-        font-weight: bold;
-        margin-top: 0.25rem;
-      }
+    .card {
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      /* Make the main card wider so the app uses more horizontal space like the previous version */
+      width: min(1200px, 96vw);
+      max-width: 1400px;
+      margin: 0.5rem auto;
+    }
 
-      .v1-badge {
-        background-color: #dc3545;
-        color: white;
-      }
+    .btn-group-custom {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.5rem;
+    }
 
-      .v2-badge {
-        background-color: #ffc107;
-        color: #000;
-      }
+    .version-badge {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 50px;
+      font-weight: bold;
+      margin-top: 0.25rem;
+    }
 
-      .v3-badge {
-        background-color: #28a745;
-        color: white;
-      }
+    .v1-badge {
+      background-color: #dc3545;
+      color: white;
+    }
 
-      .resultado-container {
-        position: relative;
-      }
+    .v2-badge {
+      background-color: #ffc107;
+      color: #000;
+    }
 
-      .copy-btn {
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
+    .v3-badge {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .resultado-container {
+      position: relative;
+    }
+
+    .copy-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .resultado-container:hover .copy-btn {
+      opacity: 1;
+    }
+
+    #resultado {
+      font-family: 'Courier New', monospace;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      word-break: break-all;
+      padding-right: 45px;
+    }
+
+    .seguridad-info {
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+    }
+
+    .progress {
+      height: 8px;
+    }
+
+    .input-group {
+      display: flex;
+    }
+
+    .input-group .form-control {
+      min-width: 0;
+    }
+
+    .input-group .btn {
+      flex-shrink: 0;
+    }
+
+    .strength-indicator {
+      display: flex;
+      gap: 4px;
+      margin-top: 0.5rem;
+      align-items: center;
+    }
+
+    .strength-bar {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .strength-bar.weak {
+      background-color: #dc3545;
+    }
+
+    .strength-bar.fair {
+      background-color: #ffc107;
+    }
+
+    .strength-bar.good {
+      background-color: #0dcaf0;
+    }
+
+    .strength-bar.strong {
+      background-color: #28a745;
+    }
+
+    .strength-text {
+      font-size: 0.75rem;
+      font-weight: bold;
+      min-width: 60px;
+    }
+
+    .offline-badge {
+      display: inline-block;
+      background-color: #28a745;
+      color: white;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: bold;
+      margin-left: 0.5rem;
+    }
+
+    .toast-notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #28a745;
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      font-weight: bold;
+      z-index: 1050;
+      animation: slideIn 0.3s ease-in-out, slideOut 0.3s ease-in-out 2.7s forwards;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
         opacity: 0;
-        transition: opacity 0.3s;
       }
 
-      .resultado-container:hover .copy-btn {
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideOut {
+      from {
+        transform: translateX(0);
         opacity: 1;
       }
 
-      #resultado {
-        font-family: 'Courier New', monospace;
-        font-size: 1.1rem;
-        letter-spacing: 1px;
-        word-break: break-all;
-        padding-right: 45px;
+      to {
+        transform: translateX(400px);
+        opacity: 0;
       }
+    }
+  </style>
+</head>
 
-      .seguridad-info {
-        font-size: 0.85rem;
-        margin-top: 0.5rem;
-      }
-
-      .progress {
-        height: 8px;
-      }
-
-      .input-group {
-        display: flex;
-      }
-
-      .input-group .form-control {
-        min-width: 0;
-      }
-
-      .input-group .btn {
-        flex-shrink: 0;
-      }
-
-      .strength-indicator {
-        display: flex;
-        gap: 4px;
-        margin-top: 0.5rem;
-        align-items: center;
-      }
-
-      .strength-bar {
-        width: 8px;
-        height: 8px;
-        border-radius: 2px;
-        background-color: rgba(255, 255, 255, 0.2);
-      }
-
-      .strength-bar.weak { background-color: #dc3545; }
-      .strength-bar.fair { background-color: #ffc107; }
-      .strength-bar.good { background-color: #0dcaf0; }
-      .strength-bar.strong { background-color: #28a745; }
-
-      .strength-text {
-        font-size: 0.75rem;
-        font-weight: bold;
-        min-width: 60px;
-      }
-
-      .offline-badge {
-        display: inline-block;
-        background-color: #28a745;
-        color: white;
-        padding: 0.2rem 0.5rem;
-        border-radius: 4px;
-        font-size: 0.7rem;
-        font-weight: bold;
-        margin-left: 0.5rem;
-      }
-
-      .toast-notification {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background-color: #28a745;
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        font-weight: bold;
-        z-index: 1050;
-        animation: slideIn 0.3s ease-in-out, slideOut 0.3s ease-in-out 2.7s forwards;
-      }
-
-      @keyframes slideIn {
-        from {
-          transform: translateX(400px);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-
-      @keyframes slideOut {
-        from {
-          transform: translateX(0);
-          opacity: 1;
-        }
-        to {
-          transform: translateX(400px);
-          opacity: 0;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+<body>
+  <!-- use fluid container + full-width helper to allow wider card -->
+  <div class="container-fluid px-3 px-md-5">
+    <div class="d-flex justify-content-center align-items-center pt-5 w-100">
       <div class="card text-center text-bg-dark border-secondary">
         <div class="card-header border-secondary">
-          <div class="d-flex justify-content-between align-items-center">
+          <div class="align-items-center">
             <div>
               <h1 class="text-center mb-0">LocApp</h1>
-              <small class="text-muted">Generador de Contraseñas v3</small>
-            </div>
-            <div>
-              <span class="offline-badge" title="Funciona 100% sin conexión a Internet">
-                <i class="fas fa-wifi"></i> OFFLINE
-              </span>
             </div>
           </div>
         </div>
         <div class="card-body">
           <div class="mb-4">
             <div class="input-group">
-              <input
-                type="password"
-                id="clave"
-                class="form-control form-control-lg"
-                placeholder="Ingresa tu frase..."
-                autofocus
-                oninput="actualizarContador()"
-                onkeypress="manejarEnter(event)"
-              />
-              <button
-                class="btn btn-outline-secondary"
-                type="button"
-                id="verClaveBtn"
-                onmousedown="verClave()"
-                onmouseup="ocultarClave()"
-                ontouchstart="verClave()"
-                ontouchend="ocultarClave()"
-              >
+              <input type="password" id="clave" class="form-control form-control-lg" placeholder="Ingresa tu frase..."
+                autofocus oninput="actualizarContador()" onkeypress="manejarEnter(event)" />
+              <button class="btn btn-outline-secondary" type="button" id="verClaveBtn" onmousedown="verClave()"
+                onmouseup="ocultarClave()" ontouchstart="verClave()" ontouchend="ocultarClave()">
                 <i id="ojoIcono" class="fas fa-eye-slash"></i>
               </button>
             </div>
             <div class="progress mt-3">
-              <div
-                class="progress-bar bg-primary"
-                id="barraProgreso"
-                role="progressbar"
-                style="width: 0%"
-                aria-valuenow="0"
-                aria-valuemin="0"
-                aria-valuemax="100"
-              ></div>
+              <div class="progress-bar bg-primary" id="barraProgreso" role="progressbar" style="width: 0%"
+                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             <div class="strength-indicator" id="fortaleza">
               <span class="strength-text">Fortaleza:</span>
@@ -248,12 +231,7 @@
           <hr />
 
           <div class="text-center mb-4">
-            <button
-              id="generarBtn"
-              onclick="generarTodas()"
-              class="btn btn-primary btn-lg w-100"
-              disabled
-            >
+            <button id="generarBtn" onclick="generarTodas()" class="btn btn-primary btn-lg w-100" disabled>
               <i class="fas fa-magic"></i> Generar Contraseñas
             </button>
           </div>
@@ -263,59 +241,44 @@
           <div class="col-12">
             <h6 class="text-muted mb-3">Resultados</h6>
             <div class="resultado-container mb-3">
-              <div class="text-muted" style="font-size: 0.75rem; text-align: left; margin-bottom: 0.5rem;">v1 (MD5)</div>
-              <div
-                id="resultado"
+              <div class="text-muted" style="font-size: 0.75rem; text-align: left; margin-bottom: 0.5rem;">v1 (MD5)
+              </div>
+              <div id="resultado"
                 class="form-control form-control-lg border border-secondary text-center text-white d-flex align-items-center justify-content-center"
-                style="background-color: rgba(220, 53, 69, 0.05); cursor: text; min-height: 50px;"
-              >
+                style="background-color: rgba(220, 53, 69, 0.05); cursor: text; min-height: 50px;">
                 —
               </div>
-              <button
-                class="btn btn-sm btn-outline-secondary copy-btn"
-                onclick="copiarResultado(this)"
-                title="Copiar"
-              >
+              <button class="btn btn-sm btn-outline-secondary copy-btn" onclick="copiarResultado(this)" title="Copiar">
                 <i class="fas fa-copy"></i>
               </button>
             </div>
 
             <div class="resultado-container mb-3">
-              <div class="text-muted" style="font-size: 0.75rem; text-align: left; margin-bottom: 0.5rem;">v2 (SHA512 15ch)</div>
-              <div
-                id="resultado2"
+              <div class="text-muted" style="font-size: 0.75rem; text-align: left; margin-bottom: 0.5rem;">v2 (SHA512
+                15ch)</div>
+              <div id="resultado2"
                 class="form-control form-control-lg border border-secondary text-center text-white d-flex align-items-center justify-content-center"
-                style="background-color: rgba(255, 193, 7, 0.05); cursor: text; min-height: 50px;"
-              >
+                style="background-color: rgba(255, 193, 7, 0.05); cursor: text; min-height: 50px;">
                 —
               </div>
-              <button
-                class="btn btn-sm btn-outline-secondary copy-btn"
-                onclick="copiarResultado(this)"
-                title="Copiar"
-              >
+              <button class="btn btn-sm btn-outline-secondary copy-btn" onclick="copiarResultado(this)" title="Copiar">
                 <i class="fas fa-copy"></i>
               </button>
             </div>
 
             <div class="resultado-container mb-3">
-              <div class="text-muted" style="font-size: 0.75rem; text-align: left; margin-bottom: 0.5rem;">v3 (SHA512+PBKDF2 20ch)</div>
-              <div
-                id="resultado3"
+              <div class="text-muted" style="font-size: 0.75rem; text-align: left; margin-bottom: 0.5rem;">v3
+                (SHA512+PBKDF2 20ch)</div>
+              <div id="resultado3"
                 class="form-control form-control-lg border border-secondary text-center text-white d-flex align-items-center justify-content-center"
-                style="background-color: rgba(40, 167, 69, 0.05); cursor: text; min-height: 50px;"
-              >
+                style="background-color: rgba(40, 167, 69, 0.05); cursor: text; min-height: 50px;">
                 —
               </div>
-              <button
-                class="btn btn-sm btn-outline-secondary copy-btn"
-                onclick="copiarResultado(this)"
-                title="Copiar"
-              >
+              <button class="btn btn-sm btn-outline-secondary copy-btn" onclick="copiarResultado(this)" title="Copiar">
                 <i class="fas fa-copy"></i>
               </button>
             </div>
-            
+
             <div id="seguridad-info" class="seguridad-info text-muted text-center">
               <small>
                 <i class="fas fa-lock"></i> 100% offline | Sin almacenamiento
@@ -323,352 +286,354 @@
             </div>
           </div>
         </div>
-        </div>
       </div>
     </div>
+  </div>
+  </div>
 
-    <script src="./sha512.js"></script>
-    <script src="./md5.js"></script>
-    <script>
-      var verClaveInterval;
-      var claveInput = document.getElementById("clave");
-      var ojoIcono = document.getElementById("ojoIcono");
-      var convertirBtn = document.getElementById("convertirBtn");
+  <script src="./sha512.js"></script>
+  <script src="./md5.js"></script>
+  <script>
+    var verClaveInterval;
+    var claveInput = document.getElementById("clave");
+    var ojoIcono = document.getElementById("ojoIcono");
+    var convertirBtn = document.getElementById("convertirBtn");
 
-      // Funciones PBKDF2 (hasheo iterativo - más seguro)
-      function pbkdf2(password, salt, iterations = 100000) {
-        // Implementación simplificada de PBKDF2 con SHA512
-        let hash = sha512(password + salt);
-        
-        for (let i = 1; i < iterations; i++) {
-          hash = sha512(hash + salt);
-        }
-        
-        return hash;
+    // Funciones PBKDF2 (hasheo iterativo - más seguro)
+    function pbkdf2(password, salt, iterations = 100000) {
+      // Implementación simplificada de PBKDF2 con SHA512
+      let hash = sha512(password + salt);
+
+      for (let i = 1; i < iterations; i++) {
+        hash = sha512(hash + salt);
       }
 
-      function actualizarContador() {
-        const caracteres = claveInput.value.length;
-        const minimos = 6;
-        const porcentaje = caracteres >= minimos ? 100 : (caracteres / minimos) * 100;
-        
-        document.getElementById("barraProgreso").style.width = porcentaje + "%";
+      return hash;
+    }
 
-        // Actualizar indicador de fortaleza
-        actualizarFortaleza(claveInput.value);
+    function actualizarContador() {
+      const caracteres = claveInput.value.length;
+      const minimos = 6;
+      const porcentaje = caracteres >= minimos ? 100 : (caracteres / minimos) * 100;
 
-        if (caracteres >= minimos) {
-          document.getElementById("generarBtn").disabled = false;
-          if (porcentaje === 100) {
-            document.getElementById("barraProgreso").classList.remove("bg-primary");
-            document.getElementById("barraProgreso").classList.add("bg-success");
-          } else {
-            document.getElementById("barraProgreso").classList.remove("bg-success");
-            document.getElementById("barraProgreso").classList.add("bg-primary");
+      document.getElementById("barraProgreso").style.width = porcentaje + "%";
+
+      // Actualizar indicador de fortaleza
+      actualizarFortaleza(claveInput.value);
+
+      if (caracteres >= minimos) {
+        document.getElementById("generarBtn").disabled = false;
+        if (porcentaje === 100) {
+          document.getElementById("barraProgreso").classList.remove("bg-primary");
+          document.getElementById("barraProgreso").classList.add("bg-success");
+        } else {
+          document.getElementById("barraProgreso").classList.remove("bg-success");
+          document.getElementById("barraProgreso").classList.add("bg-primary");
+        }
+      } else {
+        document.getElementById("generarBtn").disabled = true;
+        document.getElementById("barraProgreso").classList.remove("bg-success");
+      }
+    }
+
+    function actualizarFortaleza(texto) {
+      let fortaleza = 0;
+      let label = "Débil";
+      let clase = "weak";
+
+      if (texto.length >= 6) fortaleza++;
+      if (texto.length >= 10) fortaleza++;
+      if (/[A-Z]/.test(texto) && /[a-z]/.test(texto)) fortaleza++;
+      if (/[0-9]/.test(texto)) fortaleza++;
+
+      // Actualizar barras visuales
+      for (let i = 1; i <= 4; i++) {
+        const bar = document.getElementById(`strength${i}`);
+        if (i <= fortaleza) {
+          bar.classList.remove("weak", "fair", "good", "strong");
+          if (fortaleza === 1) {
+            bar.classList.add("weak");
+            label = "Muy débil";
+          } else if (fortaleza === 2) {
+            bar.classList.add("fair");
+            label = "Regular";
+          } else if (fortaleza === 3) {
+            bar.classList.add("good");
+            label = "Buena";
+          } else if (fortaleza === 4) {
+            bar.classList.add("strong");
+            label = "Muy fuerte";
           }
         } else {
-          document.getElementById("generarBtn").disabled = true;
-          document.getElementById("barraProgreso").classList.remove("bg-success");
+          bar.classList.add("weak");
         }
       }
 
-      function actualizarFortaleza(texto) {
-        let fortaleza = 0;
-        let label = "Débil";
-        let clase = "weak";
+      document.getElementById("strengthLabel").innerText = label;
+    }
 
-        if (texto.length >= 6) fortaleza++;
-        if (texto.length >= 10) fortaleza++;
-        if (/[A-Z]/.test(texto) && /[a-z]/.test(texto)) fortaleza++;
-        if (/[0-9]/.test(texto)) fortaleza++;
+    function manejarEnter(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        if (claveInput.value.length >= 6) {
+          generarTodas();
+        }
+      }
+    }
 
-        // Actualizar barras visuales
-        for (let i = 1; i <= 4; i++) {
-          const bar = document.getElementById(`strength${i}`);
-          if (i <= fortaleza) {
-            bar.classList.remove("weak", "fair", "good", "strong");
-            if (fortaleza === 1) {
-              bar.classList.add("weak");
-              label = "Muy débil";
-            } else if (fortaleza === 2) {
-              bar.classList.add("fair");
-              label = "Regular";
-            } else if (fortaleza === 3) {
-              bar.classList.add("good");
-              label = "Buena";
-            } else if (fortaleza === 4) {
-              bar.classList.add("strong");
-              label = "Muy fuerte";
-            }
+    function generarTodas() {
+      var texto = claveInput.value;
+      if (texto != null && texto != "" && texto.length >= 6) {
+        actualizarContador();
+        generarContraseña(texto);
+        generarContraseñav1(texto);
+        generarContraseñav3(texto);
+      }
+    }
+
+    function magia() {
+      var texto = claveInput.value;
+      if (texto != null && texto != "" && texto.length >= 6) {
+        actualizarContador();
+        generarContraseña(texto);
+        generarContraseñav1(texto);
+        generarContraseñav3(texto);
+      }
+    }
+
+    function magiav1() {
+      var texto = claveInput.value;
+      if (texto != null && texto != "" && texto.length >= 6) {
+        actualizarContador();
+        generarContraseña(texto);
+        generarContraseñav1(texto);
+        generarContraseñav3(texto);
+      }
+    }
+
+    function magiav3() {
+      var texto = claveInput.value;
+      if (texto != null && texto != "" && texto.length >= 6) {
+        actualizarContador();
+        generarContraseña(texto);
+        generarContraseñav1(texto);
+        generarContraseñav3(texto);
+      }
+    }
+
+    function verClave() {
+      verClaveInterval = setInterval(function () {
+        claveInput.type = "text";
+        ojoIcono.classList.remove("fa-eye-slash");
+        ojoIcono.classList.add("fa-eye");
+      }, 100);
+    }
+
+    function ocultarClave() {
+      clearInterval(verClaveInterval);
+      claveInput.type = "password";
+      ojoIcono.classList.remove("fa-eye");
+      ojoIcono.classList.add("fa-eye-slash");
+    }
+
+    function generateRandomString(length) {
+      var charset =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-/.+";
+      var result = "";
+      var charactersLength = charset.length;
+      for (var i = 0; i < length; i++) {
+        result += charset.charAt(
+          Math.floor(Math.random() * charactersLength)
+        );
+      }
+      return result;
+    }
+
+    function generarContraseña(texto) {
+      // v2: Original - SHA512, 15 caracteres
+      var hash = sha512(texto);
+      var h = hash.substring(0, 15);
+      var result = "";
+
+      for (var i = 0; i < h.length; i++) {
+        var char = h[i];
+        if (isNaN(char)) {
+          if (i === 0) {
+            result += ".";
+          } else if (i === 2) {
+            result += "*";
+          } else if (i % 2 === 0) {
+            result += char.toLowerCase();
           } else {
-            bar.classList.add("weak");
+            result += char.toUpperCase();
           }
-        }
-
-        document.getElementById("strengthLabel").innerText = label;
-      }
-
-      function manejarEnter(event) {
-        if (event.key === "Enter") {
-          event.preventDefault();
-          if (claveInput.value.length >= 6) {
-            generarTodas();
-          }
+        } else {
+          result += char;
         }
       }
 
-      function generarTodas() {
-        var texto = claveInput.value;
-        if (texto != null && texto != "" && texto.length >= 6) {
-          actualizarContador();
-          generarContraseña(texto);
-          generarContraseñav1(texto);
-          generarContraseñav3(texto);
+      if (result.length < 15) {
+        result += generateRandomString(15 - result.length);
+      } else if (result.length > 15) {
+        result = result.substring(0, 15);
+      }
+
+      document.getElementById("resultado2").innerText = result;
+    }
+
+    function generarContraseñav1(texto) {
+      // v1: Original - MD5, 12 caracteres
+      var buf = MD5(texto);
+      var h = buf.substring(0, 12);
+      var cadena = "";
+      var first = -1;
+      var last = -1;
+
+      for (let i = 0; i < h.length; i++) {
+        if (isNaN(h[i]) && first === -1) {
+          cadena += h[i].toUpperCase();
+          first = i;
+        } else {
+          cadena += h[i];
+        }
+
+        if (!isNaN(h[i])) {
+          last = h[i];
         }
       }
+      var cadenaNew = cadena.replace(last, "*");
+      document.getElementById("resultado").innerText = cadenaNew;
+    }
 
-      function magia() {
-        var texto = claveInput.value;
-        if (texto != null && texto != "" && texto.length >= 6) {
-          actualizarContador();
-          generarContraseña(texto);
-          generarContraseñav1(texto);
-          generarContraseñav3(texto);
-        }
-      }
+    function generarContraseñav3(texto) {
+      // v3: Mejorada - SHA512 + PBKDF2 (hasheo iterativo)
+      // Usar la frase como contraseña y generar un salt del texto
+      var salt = sha512(texto).substring(0, 16);
+      var hashPBKDF2 = pbkdf2(texto, salt, 50000);
 
-      function magiav1() {
-        var texto = claveInput.value;
-        if (texto != null && texto != "" && texto.length >= 6) {
-          actualizarContador();
-          generarContraseña(texto);
-          generarContraseñav1(texto);
-          generarContraseñav3(texto);
-        }
-      }
+      // Usar los primeros 32 caracteres del hash PBKDF2
+      var h = hashPBKDF2.substring(0, 32);
+      var result = "";
 
-      function magiav3() {
-        var texto = claveInput.value;
-        if (texto != null && texto != "" && texto.length >= 6) {
-          actualizarContador();
-          generarContraseña(texto);
-          generarContraseñav1(texto);
-          generarContraseñav3(texto);
-        }
-      }
+      // Estructura segura: [Mayús][números][símbolos][Minús]
+      var mayusculas = "";
+      var numeros = "";
+      var simbolos = "";
+      var minusculas = "";
 
-      function verClave() {
-        verClaveInterval = setInterval(function () {
-          claveInput.type = "text";
-          ojoIcono.classList.remove("fa-eye-slash");
-          ojoIcono.classList.add("fa-eye");
-        }, 100);
-      }
+      // Procesar cada carácter del hash
+      for (var i = 0; i < h.length; i++) {
+        var char = h[i];
+        var pos = i % 4;
 
-      function ocultarClave() {
-        clearInterval(verClaveInterval);
-        claveInput.type = "password";
-        ojoIcono.classList.remove("fa-eye");
-        ojoIcono.classList.add("fa-eye-slash");
-      }
-
-      function generateRandomString(length) {
-        var charset =
-          "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-/.+";
-        var result = "";
-        var charactersLength = charset.length;
-        for (var i = 0; i < length; i++) {
-          result += charset.charAt(
-            Math.floor(Math.random() * charactersLength)
-          );
-        }
-        return result;
-      }
-
-      function generarContraseña(texto) {
-        // v2: Original - SHA512, 15 caracteres
-        var hash = sha512(texto);
-        var h = hash.substring(0, 15);
-        var result = "";
-
-        for (var i = 0; i < h.length; i++) {
-          var char = h[i];
-          if (isNaN(char)) {
-            if (i === 0) {
-              result += ".";
-            } else if (i === 2) {
-              result += "*";
-            } else if (i % 2 === 0) {
-              result += char.toLowerCase();
-            } else {
-              result += char.toUpperCase();
-            }
+        if (isNaN(char)) {
+          // Es letra del hash hexadecimal
+          if (pos === 0 || pos === 1) {
+            mayusculas += char.toUpperCase();
           } else {
-            result += char;
+            minusculas += char.toLowerCase();
           }
-        }
-
-        if (result.length < 15) {
-          result += generateRandomString(15 - result.length);
-        } else if (result.length > 15) {
-          result = result.substring(0, 15);
-        }
-
-        document.getElementById("resultado2").innerText = result;
-      }
-
-      function generarContraseñav1(texto) {
-        // v1: Original - MD5, 12 caracteres
-        var buf = MD5(texto);
-        var h = buf.substring(0, 12);
-        var cadena = "";
-        var first = -1;
-        var last = -1;
-        
-        for (let i = 0; i < h.length; i++) {
-          if (isNaN(h[i]) && first === -1) {
-            cadena += h[i].toUpperCase();
-            first = i;
+        } else {
+          // Es número del hash
+          if (pos === 2) {
+            numeros += char;
           } else {
-            cadena += h[i];
-          }
-
-          if (!isNaN(h[i])) {
-            last = h[i];
+            // Convertir números en símbolos especiales seguros
+            var simbolosValidos = "!@#$%^&*()_+-=";
+            simbolos += simbolosValidos[parseInt(char) % simbolosValidos.length];
           }
         }
-        var cadenaNew = cadena.replace(last, "*");
-        document.getElementById("resultado").innerText = cadenaNew;
       }
 
-      function generarContraseñav3(texto) {
-        // v3: Mejorada - SHA512 + PBKDF2 (hasheo iterativo)
-        // Usar la frase como contraseña y generar un salt del texto
-        var salt = sha512(texto).substring(0, 16);
-        var hashPBKDF2 = pbkdf2(texto, salt, 50000);
-        
-        // Usar los primeros 32 caracteres del hash PBKDF2
-        var h = hashPBKDF2.substring(0, 32);
-        var result = "";
-        
-        // Estructura segura: [Mayús][números][símbolos][Minús]
-        var mayusculas = "";
-        var numeros = "";
-        var simbolos = "";
-        var minusculas = "";
-        
-        // Procesar cada carácter del hash
-        for (var i = 0; i < h.length; i++) {
-          var char = h[i];
-          var pos = i % 4;
-          
-          if (isNaN(char)) {
-            // Es letra del hash hexadecimal
-            if (pos === 0 || pos === 1) {
-              mayusculas += char.toUpperCase();
-            } else {
-              minusculas += char.toLowerCase();
-            }
-          } else {
-            // Es número del hash
-            if (pos === 2) {
-              numeros += char;
-            } else {
-              // Convertir números en símbolos especiales seguros
-              var simbolosValidos = "!@#$%^&*()_+-=";
-              simbolos += simbolosValidos[parseInt(char) % simbolosValidos.length];
-            }
-          }
-        }
-        
-        // Ensamblar contraseña de 20 caracteres: 5 mayús + 4 números + 3 símbolos + 8 minús
-        result = (mayusculas.substring(0, 5) || "ABCDE") +
-                 (numeros.substring(0, 4) || "1234") +
-                 (simbolos.substring(0, 3) || "!@#") +
-                 (minusculas.substring(0, 8) || "abcdefgh");
-        
-        // Garantizar exactamente 20 caracteres
-        if (result.length > 20) {
-          result = result.substring(0, 20);
-        } else if (result.length < 20) {
-          var relleno = "xXpP9*!@#$%^&*()_+-=";
-          result += relleno.substring(0, 20 - result.length);
-        }
-        
-        // Barajado determinista para más entropía
-        result = barrajarContraseña(result, hashPBKDF2);
-        
-        document.getElementById("resultado3").innerText = result;
+      // Ensamblar contraseña de 20 caracteres: 5 mayús + 4 números + 3 símbolos + 8 minús
+      result = (mayusculas.substring(0, 5) || "ABCDE") +
+        (numeros.substring(0, 4) || "1234") +
+        (simbolos.substring(0, 3) || "!@#") +
+        (minusculas.substring(0, 8) || "abcdefgh");
+
+      // Garantizar exactamente 20 caracteres
+      if (result.length > 20) {
+        result = result.substring(0, 20);
+      } else if (result.length < 20) {
+        var relleno = "xXpP9*!@#$%^&*()_+-=";
+        result += relleno.substring(0, 20 - result.length);
       }
 
-      function barrajarContraseña(str, hash) {
-        // Barajado determinista basado en el hash
-        var arr = str.split("");
-        var seed = parseInt(hash.substring(0, 8), 16);
-        
-        // Realizar rotaciones basadas en el seed
-        var rotaciones = seed % arr.length;
-        for (var i = 0; i < rotaciones; i++) {
-          var temp = arr.shift();
-          arr.push(temp);
-        }
-        
-        return arr.join("");
+      // Barajado determinista para más entropía
+      result = barrajarContraseña(result, hashPBKDF2);
+
+      document.getElementById("resultado3").innerText = result;
+    }
+
+    function barrajarContraseña(str, hash) {
+      // Barajado determinista basado en el hash
+      var arr = str.split("");
+      var seed = parseInt(hash.substring(0, 8), 16);
+
+      // Realizar rotaciones basadas en el seed
+      var rotaciones = seed % arr.length;
+      for (var i = 0; i < rotaciones; i++) {
+        var temp = arr.shift();
+        arr.push(temp);
       }
 
-      function copiarResultado(btn) {
-        var resultado = btn.previousElementSibling.innerText;
-        
-        if (resultado === "—") {
-          alert("Genera una contraseña primero");
-          return;
-        }
-        
-        navigator.clipboard.writeText(resultado).then(function() {
-          // Mostrar toast de confirmación
-          mostrarToast("✓ Copiado al portapapeles");
-          
-          // Efecto visual en el botón
-          var icon = btn.querySelector("i");
-          var originalIcon = icon.className;
-          
-          icon.className = "fas fa-check";
-          btn.classList.add("btn-success");
-          btn.classList.remove("btn-outline-secondary");
-          
-          setTimeout(function() {
-            icon.className = originalIcon;
-            btn.classList.remove("btn-success");
-            btn.classList.add("btn-outline-secondary");
-          }, 2000);
-        }).catch(function(err) {
-          alert("Error al copiar: " + err);
-        });
+      return arr.join("");
+    }
+
+    function copiarResultado(btn) {
+      var resultado = btn.previousElementSibling.innerText;
+
+      if (resultado === "—") {
+        alert("Genera una contraseña primero");
+        return;
       }
 
-      function mostrarToast(mensaje) {
-        // Eliminar toast anterior si existe
-        const toastAnterior = document.querySelector(".toast-notification");
-        if (toastAnterior) {
-          toastAnterior.remove();
-        }
+      navigator.clipboard.writeText(resultado).then(function () {
+        // Mostrar toast de confirmación
+        mostrarToast("✓ Copiado al portapapeles");
 
-        // Crear nuevo toast
-        const toast = document.createElement("div");
-        toast.className = "toast-notification";
-        toast.innerText = mensaje;
-        document.body.appendChild(toast);
+        // Efecto visual en el botón
+        var icon = btn.querySelector("i");
+        var originalIcon = icon.className;
 
-        // Eliminar después de 3 segundos
-        setTimeout(function() {
-          toast.remove();
-        }, 3000);
-      }
+        icon.className = "fas fa-check";
+        btn.classList.add("btn-success");
+        btn.classList.remove("btn-outline-secondary");
 
-      // Ejecutar al cargar la página
-      window.addEventListener("load", function() {
-        claveInput.focus();
+        setTimeout(function () {
+          icon.className = originalIcon;
+          btn.classList.remove("btn-success");
+          btn.classList.add("btn-outline-secondary");
+        }, 2000);
+      }).catch(function (err) {
+        alert("Error al copiar: " + err);
       });
-    </script>
-  </body>
+    }
+
+    function mostrarToast(mensaje) {
+      // Eliminar toast anterior si existe
+      const toastAnterior = document.querySelector(".toast-notification");
+      if (toastAnterior) {
+        toastAnterior.remove();
+      }
+
+      // Crear nuevo toast
+      const toast = document.createElement("div");
+      toast.className = "toast-notification";
+      toast.innerText = mensaje;
+      document.body.appendChild(toast);
+
+      // Eliminar después de 3 segundos
+      setTimeout(function () {
+        toast.remove();
+      }, 3000);
+    }
+
+    // Ejecutar al cargar la página
+    window.addEventListener("load", function () {
+      claveInput.focus();
+    });
+  </script>
+</body>
+
 </html>
